@@ -1,0 +1,7 @@
+*.pyc
+.pytest*
+.pycache
+.idea
+.vscode
+/venv
+/venv2
