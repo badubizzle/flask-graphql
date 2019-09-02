@@ -56,10 +56,13 @@ class Query(graphene.ObjectType):
         
         user = query.first()
         current_user = get_jwt_identity()
+        if not user:
+            raise GraphQLError("Unauthorized access or invalid token or invalid username.")
+            
         if current_user != user.username:
-            raise GraphQLError("Unauthorized access or invalid token.")
+            raise GraphQLError("Unauthorized access or invalid token or invalid username.")
         
-        return  user #UserObject(username=user.username)
+        return  user
 
 
 
