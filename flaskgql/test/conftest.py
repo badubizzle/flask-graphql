@@ -37,7 +37,7 @@ def app():
     db.engine.execute("DROP TABLE alembic_version")
     ctx.pop()
     
-    
+
 
 
 @pytest.yield_fixture(scope='function')
@@ -55,10 +55,18 @@ class QueryHelper(object):
     def __init__(self, client=None):
         self.client = client
 
-    def mutate(self,query):
-     url = '/graphql?query=mutation '+query
-     response = self.client.post(url)
-     return response
+    def mutate(self,query, variables=None):
+        if variables:
+            # do post
+            import json
+            data = {'query': query, 'variables': json.dumps(variables)}
+            url = "/graphql"
+            response = self.client.post(url, data=data)
+            return response
+        else:
+            url = '/graphql?query=mutation '+query
+            response = self.client.post(url)
+            return response
 
     def query(self,query):
         url = '/graphql?query=query '+query
