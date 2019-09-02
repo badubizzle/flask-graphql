@@ -73,10 +73,76 @@ class QueryHelper(object):
         response = self.client.get(url)
         return response
 
+class Queries(object):
+    
+    CREATE_ACCOUNT_MUTATION = """
+          mutation createAccount($username: String!, $token: String!){
+           createAccount(username: $username, token: $token){
+              account{
+              ... on AccountObject{
+                uuid
+                balance
+              }
+              ... on AuthInfoField{
+                    message
+              }
+            }
+          }
+          }
+     """
+    DEPOSIT_MUTATION = """
+     mutation depositMoney($accountUuid: String!, $amount: Int!, $token: String!){
+       depositMoney(accountUuid: $accountUuid, amount: $amount, token: $token){
+         account{
+           ... on AccountObject{
+             balance
+             uuid
+           }
+           ... on AuthInfoField{
+             message
+           }
+         }
+       }
+     }
+     """
+
+    WITHDRAW_MUTATION = """
+    mutation withdrawMoney($accountUuid: String!, $amount: Int!, $token: String!){
+      withdrawMoney(accountUuid: $accountUuid, amount: $amount, token: $token){
+        account{
+          ... on AccountObject{
+            balance
+            uuid
+          }
+          ... on AuthInfoField{
+            message
+          }
+        }
+      }
+    }
+    """
+
+    CREATE_USER_MUTATION = """
+     mutation createUser($username: String!) {
+          createUser(username: $username){
+          accessToken
+          refreshToken
+          user{
+               username
+          }
+          }
+     }
+     """
 @pytest.fixture(scope='function')
 def gql(client):    
     query_helper = QueryHelper(client=client)
     
     return query_helper
+
+@pytest.fixture(scope='function')
+def queries():
+    return Queries()
+    
+     
 
 
