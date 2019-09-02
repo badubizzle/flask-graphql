@@ -25,6 +25,7 @@ graphene-sqlalchemy==2.1.2
 graphql-core==2.1
 graphql-relay==0.4.5
 graphql-server-core==1.1.1
+hypothesis==4.34.0
 idna==2.8
 importlib-metadata==0.19
 itsdangerous==1.1.0
