@@ -6,12 +6,13 @@
 
 ### Running
 
-1. pip install virtualenv
-2. virtualenv venv
-3. source venv/bin/activate
-4. pip install -r requirements.txt
-5. make db-init
-6. make db-migrate
-7. make db-upgrade
+1. Clone repo `git clone https://github.com/badubizzle/flask-graphql.git flask-graphql`
+1. `cd flask-graphql`
+1. Install virual env `pip install virtualenv`
+1. Create virual environment `virtualenv venv`
+1. Activate virtual env `source venv/bin/activate`
+1. Install dependencies `pip install -r requirements.txt`
+1. Create database `make db-upgrade`
+1. Start server `make run`
 
-8. open http://localhost:5000/graphql
+1. open http://localhost:5000/graphql
