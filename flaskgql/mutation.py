@@ -41,7 +41,7 @@ class CreateUser(graphene.Mutation):
 
 class CreateAccount(graphene.Mutation):
     class Arguments:
-        token = graphene.String()        
+        token = graphene.String(required=True)
         username = graphene.String(required=True)
 
     account = graphene.Field(ProtectedAccount)
@@ -63,7 +63,7 @@ class CreateAccount(graphene.Mutation):
 
 class DepositMoney(graphene.Mutation):
     class Arguments:
-        token = graphene.String()
+        token = graphene.String(required=True)
         account_uuid = graphene.String(required=True)
         amount = graphene.Int(required=True)
 
@@ -86,7 +86,7 @@ class DepositMoney(graphene.Mutation):
 
 class WithDrawMoney(graphene.Mutation):
     class Arguments:
-        token = graphene.String()
+        token = graphene.String(required=True)
         account_uuid = graphene.String(required=True)
         amount = graphene.Int(required=True)
     
@@ -106,27 +106,11 @@ class WithDrawMoney(graphene.Mutation):
         db.session.add(account)
         db.session.commit()
         return WithDrawMoney(account=account)
-    
 
-class AuthMutation(graphene.Mutation):
-    class Arguments(object):
-        username = graphene.String()
-        password = graphene.String()
-
-    access_token = graphene.String()
-    refresh_token = graphene.String()
-    @classmethod
-    def mutate(cls, _, info, username, password):
-        user_claims={'name': username}
-        return AuthMutation(
-        access_token=create_access_token(username, user_claims=user_claims),
-        refresh_token=create_refresh_token(username, user_claims=user_claims),
-        )
-    
 
 class RefreshMutation(graphene.Mutation):
     class Arguments(object):
-        refresh_token = graphene.String()
+        refresh_token = graphene.String(required=True)
 
     new_token = graphene.String()
 
@@ -142,5 +126,4 @@ class Mutation(graphene.ObjectType):
     create_user = CreateUser.Field()
     deposit_money = DepositMoney.Field()
     withdraw_money = WithDrawMoney.Field()
-    auth = AuthMutation.Field()
     refresh = RefreshMutation.Field()
