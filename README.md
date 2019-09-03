@@ -17,3 +17,9 @@
 1. Start server `make run`
 
 1. open http://localhost:5000/graphql
+
+### Running tests
+
+All tests use property-based testing using [Hypothesis](https://github.com/HypothesisWorks/hypothesis/) and pytest
+
+`make test`
